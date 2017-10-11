@@ -2,6 +2,8 @@ package neighbors;
 
 import com.csvreader.CsvReader;
 import org.jblas.DoubleMatrix;
+import test.FileUtils;
+import test.TrainData;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class KNNClassifer {
             distance.put(0, i, Math.pow(distance.get(0, i), 0.5));
         }
         int[] indexSort = distance.sortingPermutation();
-        
+
         HashMap<Double, Integer> countMap = new HashMap<>();
         for (int i=0; i < k; ++i){
             System.out.println(indexSort[i]);
@@ -62,47 +64,12 @@ public class KNNClassifer {
     }
 
     public static void main(String[] args) throws Exception {
-        CsvReader csvReader = new CsvReader("E:\\dataset\\ml_inaction\\Ch02\\datingTestSet.txt");
-        String line;
-        String[] eles;
-        double[] doubleEle;
-        int labelIndex = 0;
-        HashMap<String, Integer> hashMap = new HashMap<>();
-        List<double[]> list = new ArrayList<>();
-        List<Integer> ylist = new ArrayList<>();
-        while(csvReader.readRecord()){
-            line = csvReader.getRawRecord();
-            eles = line.split("\\t");
-            doubleEle = new double[eles.length-1];
-            int i=0;
-            for (; i < eles.length-1; ++i){
-                doubleEle[i] = Double.valueOf(eles[i]);
-            }
-            if (hashMap.getOrDefault(eles[i], -1) == -1){
-                hashMap.put(eles[i], labelIndex++);
-            }
-            System.out.println(hashMap.get(eles[i]));
-            ylist.add(hashMap.get(eles[i]));
-            list.add(doubleEle);
-        }
-        double[][] data = new double[list.size()][];
-        double[] label = new double[ylist.size()];
-        for (int i=0; i < list.size(); ++i){
-            data[i] = list.get(i);
-            label[i] = (double) ylist.get(i);
-        }
 
-        for (int i=0; i < data.length; ++i){
-            for (int j=0; j < data[0].length; ++j){
-                System.out.print(data[i][j]+" ");
-            }
-            System.out.println();
-        }
-        for (int i=0; i < data.length; ++i){
-            System.out.println(label[i]);
-        }
 
         KNNClassifer knn = new KNNClassifer(1);
+        TrainData trainData = FileUtils.readData("E:\\dataset\\ml_inaction\\Ch02\\datingTestSet.txt");
+        double[][] data = trainData.train_df;
+        double[] label = trainData.label;
         knn.fit(data, label);
         double a = knn.predict(new double[][]{{14488, 7.153469, 1.673904}});
         System.out.println(a);
