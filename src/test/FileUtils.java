@@ -35,7 +35,7 @@ public class FileUtils {
             if (hashMap.getOrDefault(eles[i], -1) == -1){
                 hashMap.put(eles[i], labelIndex++);
             }
-            System.out.println(hashMap.get(eles[i]));
+//            System.out.println(hashMap.get(eles[i]));
             ylist.add(hashMap.get(eles[i]));
             datalist.add(doubleEle);
         }
@@ -46,15 +46,15 @@ public class FileUtils {
             label[i] = (double) ylist.get(i);
         }
 
-        for (int i=0; i < data.length; ++i){
-            for (int j=0; j < data[0].length; ++j){
-                System.out.print(data[i][j]+" ");
-            }
-            System.out.println();
-        }
-        for (int i=0; i < data.length; ++i){
-            System.out.println(label[i]);
-        }
+//        for (int i=0; i < data.length; ++i){
+//            for (int j=0; j < data[0].length; ++j){
+//                System.out.print(data[i][j]+" ");
+//            }
+//            System.out.println();
+//        }
+//        for (int i=0; i < data.length; ++i){
+//            System.out.println(label[i]);
+//        }
 
         TrainData trainData = new TrainData();
         trainData.train_df = data;
